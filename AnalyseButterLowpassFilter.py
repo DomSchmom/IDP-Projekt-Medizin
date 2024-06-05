@@ -31,7 +31,7 @@ imu_data = imu_data['a_xl']  # Use only one column for demonstration purposes
 plot_frequency_spectrum(imu_data, accel_freq)
 
 # Try different cutoff frequencies and observe the effect
-cutoff_freqs = [5,1,0.5,0.1]  # Example cutoff frequencies to try
+cutoff_freqs = [5,3,1,0.5]  # Example cutoff frequencies to try
 filtered_data = {}
 
 for cutoff in cutoff_freqs:
@@ -42,10 +42,10 @@ plt.figure(figsize=(12, 6))
 plt.plot(timestamps, imu_data, label='Original Data', alpha=0.5)
 
 for cutoff in cutoff_freqs:
-    plt.plot(timestamps, filtered_data[cutoff], label=f'Cutoff Frequency = {cutoff} Hz')
+    plt.plot(timestamps, filtered_data[cutoff], label=f'Cutoff = {cutoff}')
 
 plt.legend()
-plt.title("Effect of Different Cutoff Frequencies on IMU Data")
+plt.title("Effect of Different Cutoffs on IMU Data")
 plt.xlabel("Time")
 plt.ylabel("Amplitude")
 plt.show()
