@@ -4,8 +4,6 @@ import numpy as np
 
 from ImuDataImport import butter_lowpass_filter, import_imu_data
 
-
-# Function to plot the frequency spectrum
 def plot_frequency_spectrum(data, sampling_rate):
     data = np.asarray(data)
     N = len(data)
@@ -26,18 +24,14 @@ imu_data = import_imu_data(imu_folder_path, accel_freq)
 timestamps = imu_data['timestamp']
 imu_data = imu_data['a_xl']  # Use only one column for demonstration purposes
 
-
-# Plot the original frequency spectrum
 plot_frequency_spectrum(imu_data, accel_freq)
 
-# Try different cutoff frequencies and observe the effect
-cutoff_freqs = [5,3,1,0.5]  # Example cutoff frequencies to try
+cutoff_freqs = [5,3,1,0.5]
 filtered_data = {}
 
 for cutoff in cutoff_freqs:
     filtered_data[cutoff] = butter_lowpass_filter(imu_data, cutoff=cutoff, fs=accel_freq)
 
-# Plot the filtered data for different cutoff frequencies
 plt.figure(figsize=(12, 6))
 plt.plot(timestamps, imu_data, label='Original Data', alpha=0.5)
 

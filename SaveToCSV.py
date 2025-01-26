@@ -34,31 +34,26 @@ def saveToCSV(imu_folder_path, accel_freq):
                 freq = 1 / accel_freq
                 delta_time = round(freq, 4)
 
-                if sensorLocation == 'right_wrist':
+                if sensorLocation == 'left_wrist':
                     imu_data_r['a_xr'] = pd.DataFrame(raw_accel_data[0])
                     imu_data_r['a_yr'] = pd.DataFrame(raw_accel_data[1])
                     imu_data_r['a_zr'] = pd.DataFrame(raw_accel_data[2])
                     imu_data_r['timestamp'] = pd.date_range(start=imu_timestampStartUTC, periods=len(imu_data_r),
                                                             freq=pd.Timedelta(seconds=delta_time))
-                    # Assuming temperature_data is a numpy array
                     temperature_df = pd.DataFrame(temperature_data[0], columns=['temperature'])
 
-                    # Repeat each value 64 times
                     repeated_temperature = np.repeat(temperature_df['temperature'].values, 64)
                     repeated_temperature_df = pd.DataFrame(repeated_temperature, columns=['temperature'])
 
-                    # Now you can assign the repeated temperature data to the imu_data_r DataFrame
                     imu_data_r['temperature'] = repeated_temperature_df['temperature']
 
 
 
     imu_data = imu_data_r
     imu_data.reset_index(drop=True, inplace=True)
-    imu_data = imu_data[3 * 60 * accel_freq:-3 * 60 * accel_freq]
-    # Define the path to the CSV file
-    csv_file_path = '/Users/dominik/Desktop/MedTool/patient_test.csv'
+    imu_data = imu_data[3 * 60 * accel_freq: 48 * 60 * 60 * accel_freq]
+    csv_file_path = "csv\\MP-PO002LeftWrist.csv"
 
-    # Write the DataFrame to a CSV file
     imu_data.to_csv(csv_file_path, index=False)
     print('IMU Data DF has been created...')
 
@@ -69,4 +64,4 @@ def butter_lowpass_filter(data, cutoff, fs, order=4):
     y = filtfilt(b, a, data)
     return y
 
-saveToCSV('/Users/dominik/Downloads/imu', 64)
+saveToCSV("F:\\paulavillafulton\\eXprt-backup\\05022024\\data\\MP-P002\\imu\\2023-11-10 10.02.26_result_2023-11-30 09.39.57", 64)
